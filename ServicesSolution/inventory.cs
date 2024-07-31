@@ -1,10 +1,10 @@
-﻿public class inventory
+﻿public class Inventory
 {
-    public int IdInventory { get; set; }
-    public string NamaBarang { get; set; }
-    public decimal HargaBarang { get; set; }
-    public DateTime TanggalPengadaan { get; set; }
-    public int Jumlah { get; set; }
-    public string Kategori { get; set; }
-    public string Manufakturer { get; set; }
+    public int id_inventory { get; set; } // Primary Key
+    public string nama_barang { get; set; }
+    public decimal harga_barang { get; set; }
+    public DateTime tanggal_pengadaan { get; set; }
+    public int jumlah { get; set; }
+    public string kategori { get; set; }
+    public string manufakturer { get; set; }
 }
