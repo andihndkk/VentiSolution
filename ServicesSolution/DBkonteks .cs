@@ -8,6 +8,8 @@ public class DBkonteks : DbContext
     }
 
     public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<Kategori> Kategoris { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -15,9 +17,21 @@ public class DBkonteks : DbContext
         modelBuilder.Entity<Inventory>()
             .HasKey(i => i.id_inventory);
 
+
+        // Konfigurasi primary key untuk entitas Kategori
+        modelBuilder.Entity<Kategori>()
+           .ToTable("kategori")
+           .HasKey(k => k.id_kategori);
+
+
+
         // Konfigurasi pemetaan tabel untuk entitas Inventory
         modelBuilder.Entity<Inventory>()
-            .ToTable("inventory"); // Pastikan nama tabel sesuai dengan nama tabel di database
+            .ToTable("inventory")
+            .HasOne(i => i.kategori)
+            .WithMany()
+            .HasForeignKey(i => i.id_kategori);
+
 
         base.OnModelCreating(modelBuilder);
     }

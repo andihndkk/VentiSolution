@@ -20,8 +20,26 @@ namespace SistemInventory.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inventory>>> Get()
         {
-            var inventories = await _konteks.Inventories.ToListAsync();
+            var inventories = await _konteks.Inventories
+                .Include(i => i.kategori)
+                .ToListAsync();
             return Ok(inventories);
+            
+        }
+
+        [HttpGet("categoriesnames")]
+        public async Task<IActionResult> GetCategoriesAndNames()
+        {
+            var categoriesAndNames = await _konteks.Inventories
+                .Select(i => new
+                {
+                    i.id_kategori,
+                    i.nama_barang
+                    
+                })
+                .ToListAsync();
+
+            return Ok(categoriesAndNames);
         }
 
         // GET api/<InventoryController>/5
@@ -73,7 +91,7 @@ namespace SistemInventory.Controllers
             existingInventory.harga_barang = updatedInventory.harga_barang;
             existingInventory.tanggal_pengadaan = updatedInventory.tanggal_pengadaan;
             existingInventory.jumlah = updatedInventory.jumlah;
-            existingInventory.kategori = updatedInventory.kategori;
+            existingInventory.id_kategori = updatedInventory.id_kategori;
             existingInventory.manufakturer = updatedInventory.manufakturer;
 
             _konteks.Inventories.Update(existingInventory);
